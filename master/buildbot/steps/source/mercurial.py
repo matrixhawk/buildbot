@@ -35,7 +35,8 @@ class Mercurial(Source):
 
     def __init__(self, repourl=None, mode='incremental',
                  method=None, defaultBranch=None, branchType='dirname',
-                 clobberOnBranchChange=True, **kwargs):
+                 purgeExcludePattern=None, clobberOnBranchChange=True,
+                 **kwargs):
 
         """
         @type  repourl: string
@@ -59,6 +60,9 @@ class Mercurial(Source):
                            or the branch is a mercurial named branch and can be
                            found within the C{repourl}
 
+        @param purgeExcludePattern: a mercurial glob pattern that helps you exclude
+                                    pattern of your choice
+
         @param clobberOnBranchChange: boolean, defaults to True. If set and
                                       using inrepos branches, clobber the tree
                                       at each branch change. Otherwise, just
@@ -68,6 +72,7 @@ class Mercurial(Source):
         self.repourl = repourl
         self.defaultBranch = self.branch = defaultBranch
         self.branchType = branchType
+        self.purgeExcludePattern = purgeExcludePattern
         self.method = method
         self.clobberOnBranchChange = clobberOnBranchChange
         self.mode = mode
@@ -169,9 +174,15 @@ class Mercurial(Source):
         d.addCallback(self._checkBranchChange)
         return d
 
+    def applyPurgePattern(self, command):
+        if self.purgeExcludePattern:
+            for pattern in self.purgeExcludePattern:
+                command.append('-X {}'.format(pattern))
+ 
     def clean(self, _):
         command = ['--config', 'extensions.purge=', 'purge']
         d =  self._dovccmd(command)
+        self.applyPurgePattern(command)
         d.addCallback(self._pullUpdate)
         return d
 
@@ -187,6 +198,7 @@ class Mercurial(Source):
 
     def fresh(self, _):
         command = ['--config', 'extensions.purge=', 'purge', '--all']
+        self.applyPurgePattern(command)
         d = self._dovccmd(command)
         d.addCallback(self._pullUpdate)
         return d
