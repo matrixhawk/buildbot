@@ -2,7 +2,7 @@
 define(['main'], function () {
     "use strict";
 
-    require(['jquery', 'moment', 'helpers', 'datatables-extend'], function ($, moment, helpers) {
+    require(['jquery', 'moment', 'helpers', 'project/datatables-extend'], function ($, moment, helpers) {
         var oTable,
             th,
             privateFunc = {
@@ -151,7 +151,7 @@ define(['main'], function () {
                 },
                 addCodebasesBar: function () {
                     // insert codebase and branch on the builders page
-                    helpers.codeBaseBranchOverview($('.top'));
+                    helpers.tableHeader($('.top'));
                 }
             },
             publicFunc = {

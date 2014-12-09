@@ -5,9 +5,9 @@ define(function (require) {
     var $ = require('jquery'),
         realtimePages = require('realtimePages'),
         helpers = require('helpers'),
-        dt = require('datatables-extend'),
+        dt = require('project/datatables-extend'),
         hb = require('project/handlebars-extend'),
-        extendMoment = require('extend-moment'),
+        extendMoment = require('project/moment-extend'),
         timeElements = require('timeElements'),
         rtTable = require('rtGenericTable'),
         popup = require('ui.popup'),
@@ -44,7 +44,7 @@ define(function (require) {
             popup.initRunBuild($(".custom-build"));
 
             // insert codebase and branch
-            helpers.codeBaseBranchOverview($('#brancOverViewCont'));
+            helpers.tableHeader($('#brancOverViewCont'));
 
             var args = URI.parseQuery(window.location.search);
 

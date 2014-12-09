@@ -1,7 +1,13 @@
 /*global define, requirejs*/
-define(['jquery', 'helpers', 'datatables-extend', 'extend-moment'], function ($, helpers, dt, extendMoment) {
+define(function (require) {
     "use strict";
-    var buildQueueTotal = $('#buildQueueTotal'),
+
+    var $ = require('jquery'),
+        helpers = require('helpers'),
+        dt = require('project/datatables-extend'),
+        popup = require('ui.popup'),
+        extendMoment = require('project/moment-extend'),
+        buildQueueTotal = $('#buildQueueTotal'),
         buildSlavesTotal = $('#buildSlavesTotal'),
         outerBar = $('#verticalProgressBar'),
         $buildLoadBox = $('#buildLoad'),

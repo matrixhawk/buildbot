@@ -1,10 +1,18 @@
 /*global define, console*/
-define(['jquery', 'rtGlobal', 'toastr', 'helpers', 'timeElements'], function ($, rtGlobal, toastr) {
+define(function (require) {
     "use strict";
-    var sock = null;
-    var realTimeFunctions = {};
-    var realtimeURLs = {};
-    var realTimeLastUpdated = {};
+
+    var $ = require("jquery"),
+        toastr = require('toastr'),
+        sock = null,
+        realTimeFunctions = {},
+        realtimeURLs = {},
+        realTimeLastUpdated = {};
+
+    require('helpers');
+    require('timeElements');
+
+    var rtGlobal = require('rtGlobal');
 
     //Realtime commands
     var KRT_JSON_DATA = "krtJSONData";
@@ -59,7 +67,7 @@ define(['jquery', 'rtGlobal', 'toastr', 'helpers', 'timeElements'], function ($,
 
                         if (iReconnectAttempts >= KRT_MAX_RECONNECT) {
                             toastr.error("Your connection to the realtime server has been lost, after multiple retries. " +
-                                    "To attempt to connect again, please close this notification",
+                                "To attempt to connect again, please close this notification",
                                 "Unable to connect to realtime",
                                 {
                                     timeOut: 0,
