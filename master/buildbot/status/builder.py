@@ -197,6 +197,7 @@ class BuilderStatus(styles.Versioned):
         return os.path.join(self.basedir, "%d" % number)
 
     def getBuildByNumber(self, number):
+        self.printCacheSize()
         return self.buildCache.get(number)
 
     def loadBuildFromFile(self, number):
