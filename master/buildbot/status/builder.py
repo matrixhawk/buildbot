@@ -30,6 +30,7 @@ from buildbot.util.lru import LRUCache
 from buildbot.status.event import Event
 from buildbot.status.build import BuildStatus
 from buildbot.status.buildrequest import BuildRequestStatus
+import sys
 
 # user modules expect these symbols to be present here
 from buildbot.status.results import SUCCESS, WARNINGS, FAILURE, SKIPPED
@@ -198,7 +199,9 @@ class BuilderStatus(styles.Versioned):
 
     def getBuildByNumber(self, number):
         self.printCacheSize()
-        return self.buildCache.get(number)
+        cachedbuild = self.buildCache.get(number)
+        log.msg("self.cachedbuild size: %d" % sys.getsizeof(cachedbuild))
+        return cachedbuild
 
     def loadBuildFromFile(self, number):
         if number in self.unavailable_build_numbers:
@@ -417,12 +420,10 @@ class BuilderStatus(styles.Versioned):
             for ss in build.getSourceStamps() ])
 
     def printCacheSize(self):
-        import sys
         log.msg("buildername " + self.name)
         log.msg("self.latestBuildCache lenght: %d" % len(self.latestBuildCache))
         log.msg("self.latestBuildCache size: %d" % sys.getsizeof(self.latestBuildCache))
         log.msg("self.buildCache length: %d" % len(self.buildCache.cache))
-        log.msg("self.buildCache size: %d" % sys.getsizeof(self.buildCache.cache))
 
     def generateFinishedBuilds(self, branches=[], codebases={},
                                num_builds=None,
