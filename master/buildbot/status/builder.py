@@ -415,6 +415,14 @@ class BuilderStatus(styles.Versioned):
         return set([ ss.branch
             for ss in build.getSourceStamps() ])
 
+    def printCacheSize(self):
+        import sys
+        log.msg("buildername " + self.name)
+        log.msg("self.latestBuildCache lenght: %d" % len(self.latestBuildCache))
+        log.msg("self.latestBuildCache size: %d" % sys.getsizeof(self.latestBuildCache))
+        log.msg("self.buildCache length: %d" % len(self.buildCache.cache))
+        log.msg("self.buildCache size: %d" % sys.getsizeof(self.buildCache))
+
     def generateFinishedBuilds(self, branches=[], codebases={},
                                num_builds=None,
                                max_buildnum=None,
@@ -422,6 +430,7 @@ class BuilderStatus(styles.Versioned):
                                results=None,
                                max_search=2000,
                                useCache=False):
+        self.printCacheSize()
 
         key = self.getLatestBuildKey(codebases)
         if useCache and num_builds == 1:
@@ -693,6 +702,8 @@ class BuilderStatus(styles.Versioned):
                     self.latestBuildCache[k] = cache
         else:
             self.latestBuildCache[key] = cache
+
+        self.printCacheSize()
         self.saveYourself(skipBuilds=True)
 
 
