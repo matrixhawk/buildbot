@@ -422,7 +422,7 @@ class BuilderStatus(styles.Versioned):
         log.msg("self.latestBuildCache lenght: %d" % len(self.latestBuildCache))
         log.msg("self.latestBuildCache size: %d" % sys.getsizeof(self.latestBuildCache))
         log.msg("self.buildCache length: %d" % len(self.buildCache.cache))
-        log.msg("self.buildCache size: %d" % sys.getsizeof(self.buildCache))
+        log.msg("self.buildCache size: %d" % sys.getsizeof(self.buildCache.cache))
 
     def generateFinishedBuilds(self, branches=[], codebases={},
                                num_builds=None,
