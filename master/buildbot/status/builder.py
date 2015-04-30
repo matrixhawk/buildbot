@@ -780,17 +780,11 @@ class BuilderStatus(styles.Versioned):
                     codebases[s.codebase] = s.branch
 
             # We save it in the same way as we access it
-            build_keys = self.getLatestBuildKey(codebases)
+            build_key = self.getLatestBuildKey(codebases)
 
-            for k in self.latestBuildCache.keys():
-                found_all_keys = True
-                for bk in build_keys:
-                    if bk not in k:
-                        found_all_keys = False
-                        break
+            if build_key in self.latestBuildCache.keys():
+                self.updateLatestBuildCache(cache, build_key)
 
-                if found_all_keys:
-                    self.updateLatestBuildCache(cache, k)
         else:
             self.updateLatestBuildCache(cache, key)
 
