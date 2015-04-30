@@ -771,12 +771,16 @@ class BuilderStatus(styles.Versioned):
             cache["build"] = build.number
 
         if key is None:
-            #Save the latest build to all matching keys
+            # Save the latest build to all matching keys
             ss = build.getSourceStamps()
-            build_keys = []
+            codebases = {}
+
             for s in ss:
                 if s.codebase and s.branch:
-                    build_keys.append(LATEST_BUILD_FORMAT.format(s.codebase, s.branch))
+                    codebases[s.codebase] = s.branch
+
+            # We save it in the same way as we access it
+            build_keys = self.getLatestBuildKey(codebases)
 
             for k in self.latestBuildCache.keys():
                 found_all_keys = True
